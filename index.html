@@ -1,0 +1,95 @@
+<html>
+<head>
+    
+    <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.js"></script>
+    
+</head>
+    
+<body>
+    
+    <script type="application/javascript">
+        
+        angular.module('app',[]);
+        
+        angular.module('app').controller('Controller1',function($rootScope, $scope){
+            
+            var contexto = this;
+            
+            contexto.subtitulo = "mi otro subtitulo";
+            
+            contexto.actualizarTitulo = function(){
+                
+                $rootScope.$broadcast("actualizar-titulo",contexto.subtitulo);
+                
+            }
+            
+        });
+        
+        angular.module('app').controller('Controller2',function($rootScope, $scope){
+            var contexto = this;
+            
+            contexto.subtitulo = "subtitulo controller 2";
+            
+            $rootScope.$on("actualizar-titulo",function(event,subtituloActualizado){
+                contexto.subtitulo = subtituloActualizado;
+            });
+            
+        });
+        
+        angular.module('app').controller('Controller3',function($rootScope, $scope){
+            var contexto = this;
+            
+            contexto.subtitulo = "subtitulo controller 3";
+            
+            $rootScope.$on("actualizar-titulo",function(event,subtituloActualizado){
+                contexto.subtitulo = subtituloActualizado;
+            });
+            
+        });
+        
+    </script>
+    
+<!--    $rootScope-->
+<!--    $scope-->
+    
+    <div ng-app="app">
+    
+        <h1>Hola mundo</h1>
+        
+        <div ng-controller="Controller1 as controller1">
+            
+            <h2>
+                {{controller1.subtitulo}}
+            </h2>   
+            
+            <input type="text" ng-model="controller1.subtitulo"/>
+            <br/>
+            <input type="button" value="emmit" ng-click="controller1.actualizarTitulo()"/>
+        
+        </div>
+        -------------------------------------------------------
+        <div ng-controller="Controller2 as controller2">
+        
+            {{controller2.subtitulo}}
+        
+        </div>
+        -------------------------------------------------------
+        <div ng-controller="Controller3 as controller3">
+        
+            {{controller3.subtitulo}}
+        
+        </div>
+    
+    </div>
+    
+    <div>
+    
+        <h1>bloque fuera de mi app angular</h1>
+    
+    </div>
+    
+    
+</body>
+
+
+</html>
